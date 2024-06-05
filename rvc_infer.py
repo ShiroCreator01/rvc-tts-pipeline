@@ -118,10 +118,10 @@ def create_directory(name):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
         
-def load_hubert(file_path="hubert_base.pt"):
+def load_hubert(file_path=os.path.join(os.getcwd(), 'model', 'hubert_base.pt')):
     '''
     Args:
-        file_fath (str) : Direct path location to the hubert_base.  If not specified, defaults to top level directory.
+        file_path (str) : Direct path location to the hubert_base.  If not specified, defaults to top level directory.
     '''
     global hubert_model
     file_path = file_path
@@ -245,8 +245,9 @@ def load_config():
 
 def rvc_convert(model_path,
             f0_up_key=0,
-            input_path=None, 
+            input_path=None,
             output_dir_path=None,
+            output_file_name="out.wav",
             _is_half="False",
             f0method="rmvpe",
             file_index="",
@@ -266,6 +267,7 @@ def rvc_convert(model_path,
         f0_up_key (int) : transpose of the audio file, changes pitch (positive makes voice higher pitch)
         input_path (str) : path to audio file (use wav file)
         output_dir_path (str) : path to output directory, defaults to parent directory in output folder
+        output_file_name (str) : name of the output file, defaults to out.wav
         _is_half (str) : Determines half-precision
         f0method (str) : picks which f0 method to use: dio, harvest, crepe, rmvpe (requires rmvpe.pt)
         file_index (str) : path to file_index, defaults to None
@@ -297,7 +299,6 @@ def rvc_convert(model_path,
 
     if output_dir_path == None:
         output_dir_path = "output"
-        output_file_name = "out.wav"
         output_dir = os.getcwd()
         output_file_path = os.path.join(output_dir,output_dir_path, output_file_name)
     else:
